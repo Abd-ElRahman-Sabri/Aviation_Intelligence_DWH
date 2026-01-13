@@ -33,3 +33,47 @@ CREATE TABLE landing.flights_raw (
     position_source INT,
     load_timestamp  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+DROP TABLE IF EXISTS landing.aircraft_raw;
+
+CREATE TABLE landing.aircraft_raw (
+    icao24          TEXT,
+    registration    TEXT, -- رقم التسجيل المكتوب على ديل الطيارة
+    manufacturericao TEXT,
+    manufacturername TEXT,
+    model           TEXT,
+    typecode        TEXT,
+    serialnumber    TEXT,
+    linenumber      TEXT,
+    icaoaircrafttype TEXT,
+    operator        TEXT, -- الشركة المشغلة
+    operatorcallsign TEXT,
+    operatoricao    TEXT,
+    operatoriata    TEXT,
+    owner           TEXT,
+    testreg         TEXT,
+    registered      TEXT, -- تاريخ التسجيل (TEXT مؤقتا)
+    reguntil        TEXT,
+    status          TEXT,
+    built           TEXT, -- سنة الصنع
+    firstflightdate TEXT,
+    seatconfiguration TEXT,
+    engines         TEXT,
+    modes           TEXT,
+    adsb            TEXT,
+    acars           TEXT,
+    notes           TEXT,
+    categoryDescription TEXT
+);
+
+DROP TABLE IF EXISTS landing.weather_raw;
+
+CREATE TABLE landing.weather_raw (
+    airport_code TEXT,
+    timestamp    TEXT,
+    temperature  TEXT,
+    wind_speed   TEXT,
+    condition    TEXT,
+    xml_source   TEXT 
+);
