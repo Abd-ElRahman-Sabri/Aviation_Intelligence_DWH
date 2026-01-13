@@ -9,3 +9,27 @@ CREATE TABLE landing.airports_raw (
     latitude TEXT, longitude TEXT, altitude TEXT, timezone TEXT, dst TEXT, 
     tz_db_timezone TEXT, type TEXT, source TEXT
 );
+
+
+-- جدول الرحلات الخام (بيانات متغيرة من API)
+DROP TABLE IF EXISTS landing.flights_raw;
+CREATE TABLE landing.flights_raw (
+    icao24          TEXT,
+    callsign        TEXT,
+    origin_country  TEXT,
+    time_position   BIGINT,
+    last_contact    BIGINT,
+    longitude       FLOAT,
+    latitude        FLOAT,
+    baro_altitude   FLOAT,
+    on_ground       BOOLEAN,
+    velocity        FLOAT,
+    true_track      FLOAT,
+    vertical_rate   FLOAT,
+    sensors         TEXT,
+    geo_altitude    FLOAT,
+    squawk          TEXT,
+    spi             BOOLEAN,
+    position_source INT,
+    load_timestamp  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
