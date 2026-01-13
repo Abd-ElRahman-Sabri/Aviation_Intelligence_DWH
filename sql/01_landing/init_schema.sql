@@ -11,7 +11,6 @@ CREATE TABLE landing.airports_raw (
 );
 
 
--- جدول الرحلات الخام (بيانات متغيرة من API)
 DROP TABLE IF EXISTS landing.flights_raw;
 CREATE TABLE landing.flights_raw (
     icao24          TEXT,
