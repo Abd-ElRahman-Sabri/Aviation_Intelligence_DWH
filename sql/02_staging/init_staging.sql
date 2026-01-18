@@ -66,4 +66,16 @@ CREATE TABLE staging.aircraft (
     ingestion_time  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-------------------------------------------------------------------------------------------------------------------------------------
 
+DROP TABLE IF EXISTS staging.weather;
+
+CREATE TABLE staging.weather (
+    airport_code    TEXT,
+    record_time     TIMESTAMP, 
+    temperature     FLOAT,    
+    wind_speed      FLOAT,
+    condition       TEXT,
+    ingestion_time  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+select * from weather w 
