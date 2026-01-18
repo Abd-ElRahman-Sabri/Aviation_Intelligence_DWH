@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>trn_load_fuel_staging</name>
+    <name>trn_load_airports</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -427,9 +427,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2026/01/18 01:28:55.244</created_date>
+    <created_date>2026/01/18 02:08:50.011</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2026/01/18 01:28:55.244</modified_date>
+    <modified_date>2026/01/18 02:08:50.011</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -488,24 +488,19 @@
   </connection>
   <order>
     <hop>
-      <from>Read fuel_consumption.xlsx</from>
-      <to>Rename Cols &amp; Fix Types</to>
+      <from>Read landing.airports_raw</from>
+      <to>Select &amp; Rename</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Rename Cols &amp; Fix Types</from>
-      <to>Add Missing Date</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Add Missing Date</from>
-      <to>Write staging.fuel_logs</to>
+      <from>Select &amp; Rename</from>
+      <to>Write staging.airports</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Read fuel_consumption.xlsx</name>
-    <type>ExcelInput</type>
+    <name>Read landing.airports_raw</name>
+    <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -514,116 +509,281 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <header>Y</header>
-    <noempty>Y</noempty>
-    <stoponempty>N</stoponempty>
-    <filefield/>
-    <sheetfield/>
-    <sheetrownumfield/>
-    <rownumfield/>
-    <sheetfield/>
-    <filefield/>
+    <connection>aviation_Local</connection>
+    <sql>SELECT 
+  airport_id,
+  name,
+  city,
+  country,
+  iata,
+  icao,
+  NULLIF(latitude, '\N') as latitude,
+  NULLIF(longitude, '\N') as longitude,
+  NULLIF(altitude, '\N') as altitude,
+  NULLIF(timezone, '\N') as timezone,
+  dst
+FROM landing.airports_raw</sql>
     <limit>0</limit>
-    <encoding/>
-    <add_to_result_filenames>Y</add_to_result_filenames>
-    <accept_filenames>N</accept_filenames>
-    <accept_field/>
-    <accept_stepname/>
-    <file>
-      <name>/media/sasoli/Data/Tracks/Data Engineering/Projects/Aviation_Intelligence_DWH/data/landing/fuel_consumption.xlsx</name>
-      <filemask/>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
-    <fields>
-      <field>
-        <name>Aircraft</name>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
         <type>String</type>
-        <length>-1</length>
+        <storagetype>normal</storagetype>
+        <name>airport_id</name>
+        <length>2147483647</length>
         <precision>-1</precision>
+        <origin>Read landing.airports_raw</origin>
+        <comments>airport_id</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Fuel Type</name>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Africa/Cairo</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
         <type>String</type>
-        <length>-1</length>
+        <storagetype>normal</storagetype>
+        <name>name</name>
+        <length>2147483647</length>
         <precision>-1</precision>
+        <origin>Read landing.airports_raw</origin>
+        <comments>name</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Gallons</name>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Cost ($)</name>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Pilot Comments</name>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Africa/Cairo</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
         <type>String</type>
-        <length>-1</length>
+        <storagetype>normal</storagetype>
+        <name>city</name>
+        <length>2147483647</length>
         <precision>-1</precision>
+        <origin>Read landing.airports_raw</origin>
+        <comments>city</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-    </fields>
-    <sheets>
-      <sheet>
-        <name>Sheet1</name>
-        <startrow>3</startrow>
-        <startcol>0</startcol>
-      </sheet>
-    </sheets>
-    <strict_types>N</strict_types>
-    <error_ignored>N</error_ignored>
-    <error_line_skipped>N</error_line_skipped>
-    <bad_line_files_destination_directory/>
-    <bad_line_files_extension>warning</bad_line_files_extension>
-    <error_line_files_destination_directory/>
-    <error_line_files_extension>error</error_line_files_extension>
-    <line_number_files_destination_directory/>
-    <line_number_files_extension>line</line_number_files_extension>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
-    <spreadsheet_type>POI</spreadsheet_type>
-    <password>Encrypted </password>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Africa/Cairo</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>country</name>
+        <length>2147483647</length>
+        <precision>-1</precision>
+        <origin>Read landing.airports_raw</origin>
+        <comments>country</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Africa/Cairo</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>iata</name>
+        <length>2147483647</length>
+        <precision>-1</precision>
+        <origin>Read landing.airports_raw</origin>
+        <comments>iata</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Africa/Cairo</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>icao</name>
+        <length>2147483647</length>
+        <precision>-1</precision>
+        <origin>Read landing.airports_raw</origin>
+        <comments>icao</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Africa/Cairo</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>latitude</name>
+        <length>2147483647</length>
+        <precision>-1</precision>
+        <origin>Read landing.airports_raw</origin>
+        <comments>latitude</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Africa/Cairo</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>longitude</name>
+        <length>2147483647</length>
+        <precision>-1</precision>
+        <origin>Read landing.airports_raw</origin>
+        <comments>longitude</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Africa/Cairo</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>altitude</name>
+        <length>2147483647</length>
+        <precision>-1</precision>
+        <origin>Read landing.airports_raw</origin>
+        <comments>altitude</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Africa/Cairo</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>timezone</name>
+        <length>2147483647</length>
+        <precision>-1</precision>
+        <origin>Read landing.airports_raw</origin>
+        <comments>timezone</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Africa/Cairo</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>dst</name>
+        <length>2147483647</length>
+        <precision>-1</precision>
+        <origin>Read landing.airports_raw</origin>
+        <comments>dst</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Africa/Cairo</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -633,13 +793,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>176</xloc>
+      <xloc>96</xloc>
       <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Rename Cols &amp; Fix Types</name>
+    <name>Select &amp; Rename</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -650,46 +810,52 @@
       <schema_name/>
     </partitioning>
     <fields>
+      <field>
+        <name>airport_id</name>
+        <rename/>
+      </field>
+      <field>
+        <name>name</name>
+        <rename/>
+      </field>
+      <field>
+        <name>city</name>
+        <rename/>
+      </field>
+      <field>
+        <name>country</name>
+        <rename/>
+      </field>
+      <field>
+        <name>iata</name>
+        <rename/>
+      </field>
+      <field>
+        <name>icao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>latitude</name>
+        <rename/>
+      </field>
+      <field>
+        <name>longitude</name>
+        <rename/>
+      </field>
+      <field>
+        <name>timezone</name>
+        <rename/>
+      </field>
+      <field>
+        <name>dst</name>
+        <rename/>
+      </field>
       <select_unspecified>N</select_unspecified>
       <meta>
-        <name>Aircraft</name>
-        <rename>aircraft_code</rename>
-        <type>String</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>Fuel Type</name>
-        <rename>fuel_type</rename>
-        <type>String</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>Gallons</name>
-        <rename>gallons</rename>
+        <name>airport_id</name>
+        <rename>airport_id</rename>
         <type>Number</type>
-        <length>-2</length>
+        <length>2147483647</length>
         <precision>-2</precision>
         <conversion_mask/>
         <date_format_lenient>false</date_format_lenient>
@@ -703,27 +869,146 @@
         <storage_type/>
       </meta>
       <meta>
-        <name>Cost ($)</name>
-        <rename>total_cost</rename>
-        <type>Number</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>Pilot Comments</name>
-        <rename>notes</rename>
+        <name>name</name>
+        <rename>name</rename>
         <type>String</type>
-        <length>-2</length>
+        <length>2147483647</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>city</name>
+        <rename>city</rename>
+        <type>String</type>
+        <length>2147483647</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>country</name>
+        <rename>country</rename>
+        <type>String</type>
+        <length>2147483647</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>iata</name>
+        <rename>iata</rename>
+        <type>String</type>
+        <length>2147483647</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>icao</name>
+        <rename>icao</rename>
+        <type>String</type>
+        <length>2147483647</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>latitude</name>
+        <rename>latitude</rename>
+        <type>Number</type>
+        <length>2147483647</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>longitude</name>
+        <rename>longitude</rename>
+        <type>Number</type>
+        <length>2147483647</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>timezone</name>
+        <rename>timezone</rename>
+        <type>Number</type>
+        <length>2147483647</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>dst</name>
+        <rename>dst</rename>
+        <type>String</type>
+        <length>2147483647</length>
         <precision>-2</precision>
         <conversion_mask/>
         <date_format_lenient>false</date_format_lenient>
@@ -746,52 +1031,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
+      <xloc>296</xloc>
       <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Add Missing Date</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>log_date</name>
-        <type>Date</type>
-        <format>yyyy-MM-dd</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>2026-01-13</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>576</xloc>
-      <yloc>112</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Write staging.fuel_logs</name>
+    <name>Write staging.airports</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -803,7 +1049,7 @@
     </partitioning>
     <connection>aviation_Local</connection>
     <schema>staging</schema>
-    <table>fuel_logs</table>
+    <table>airports</table>
     <commit>1000</commit>
     <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
@@ -820,28 +1066,44 @@
     <return_field/>
     <fields>
       <field>
-        <column_name>aircraft_code</column_name>
-        <stream_name>aircraft_code</stream_name>
+        <column_name>airport_id</column_name>
+        <stream_name>airport_id</stream_name>
       </field>
       <field>
-        <column_name>fuel_type</column_name>
-        <stream_name>fuel_type</stream_name>
+        <column_name>name</column_name>
+        <stream_name>name</stream_name>
       </field>
       <field>
-        <column_name>gallons</column_name>
-        <stream_name>gallons</stream_name>
+        <column_name>city</column_name>
+        <stream_name>city</stream_name>
       </field>
       <field>
-        <column_name>total_cost</column_name>
-        <stream_name>total_cost</stream_name>
+        <column_name>country</column_name>
+        <stream_name>country</stream_name>
       </field>
       <field>
-        <column_name>notes</column_name>
-        <stream_name>notes</stream_name>
+        <column_name>iata</column_name>
+        <stream_name>iata</stream_name>
       </field>
       <field>
-        <column_name>log_date</column_name>
-        <stream_name>log_date</stream_name>
+        <column_name>icao</column_name>
+        <stream_name>icao</stream_name>
+      </field>
+      <field>
+        <column_name>latitude</column_name>
+        <stream_name>latitude</stream_name>
+      </field>
+      <field>
+        <column_name>longitude</column_name>
+        <stream_name>longitude</stream_name>
+      </field>
+      <field>
+        <column_name>timezone</column_name>
+        <stream_name>timezone</stream_name>
+      </field>
+      <field>
+        <column_name>dst</column_name>
+        <stream_name>dst</stream_name>
       </field>
     </fields>
     <attributes/>
@@ -853,7 +1115,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>768</xloc>
+      <xloc>496</xloc>
       <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>

@@ -36,3 +36,34 @@ CREATE TABLE staging.fuel_logs (
     notes           TEXT,
     ingestion_time  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-------------------------------------------------------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS staging.airports;
+CREATE TABLE staging.airports (
+    airport_id      INT,
+    name            TEXT,
+    city            TEXT,
+    country         TEXT,
+    iata            TEXT,
+    icao            TEXT,
+    latitude        FLOAT,
+    longitude       FLOAT,
+    timezone        FLOAT,
+    dst             TEXT,
+    ingestion_time  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-------------------------------------------------------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS staging.aircraft;
+CREATE TABLE staging.aircraft (
+    icao24          TEXT,
+    registration    TEXT,
+    manufacturer    TEXT, 
+    model           TEXT,
+    operator        TEXT,
+    built_year      TEXT, 
+    engine_type     TEXT, 
+    ingestion_time  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
