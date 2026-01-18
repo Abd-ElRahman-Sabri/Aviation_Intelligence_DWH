@@ -21,3 +21,18 @@ CREATE TABLE staging.flights (
     position_source INT,
     ingestion_time  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS staging.fuel_logs;
+
+CREATE TABLE staging.fuel_logs (
+    log_id          SERIAL PRIMARY KEY,
+    aircraft_code   TEXT, -- SU-GDL
+    fuel_type       TEXT, -- Jet-A1
+    gallons         FLOAT,
+    total_cost      FLOAT,
+    log_date        DATE, 
+    notes           TEXT,
+    ingestion_time  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
